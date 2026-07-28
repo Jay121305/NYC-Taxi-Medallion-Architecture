@@ -1,4 +1,4 @@
-# Architecture.md
+# Architecture
 
 # System Architecture
 
