@@ -1,139 +1,300 @@
-# NYC Taxi Medallion Architecture
+# 🚖 NYC Taxi Medallion Architecture
 
-![Dashboard](images/dashboard.png)
+<p align="center">
+  <img src="images/banner.png" alt="Project Banner" width="100%">
+</p>
 
-End-to-end Databricks lakehouse project built on the NYC Taxi trip records. This repository demonstrates a production-style Medallion Architecture pipeline with Bronze, Silver, and Gold Delta tables, Delta Lake maintenance operations, SQL analytics, and an interactive dashboard for business insights.
+<p align="center">
 
-## Project Snapshot
+![Databricks](https://img.shields.io/badge/Databricks-FF3621?style=for-the-badge&logo=databricks&logoColor=white)
+![Apache Spark](https://img.shields.io/badge/Apache%20Spark-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white)
+![PySpark](https://img.shields.io/badge/PySpark-F7DF1E?style=for-the-badge&logo=apache-spark&logoColor=black)
+![Delta Lake](https://img.shields.io/badge/Delta%20Lake-00ADD8?style=for-the-badge)
+![Spark SQL](https://img.shields.io/badge/Spark_SQL-4479A1?style=for-the-badge)
 
-- **Platform:** Databricks Free Edition
-- **Core stack:** PySpark, Spark SQL, Delta Lake, Databricks Lakeview Dashboards
-- **Data volume:** 9.4M+ taxi trips processed across Jan–Mar 2024
-- **Goal:** Turn raw NYC taxi trip records into clean, analytics-ready business tables and an executive dashboard
+</p>
 
-## Architecture
+---
 
-![Architecture](images/architecture.png)
+## 📖 Overview
 
-## What this project does
+This project implements an end-to-end **Lakehouse Data Engineering Pipeline** using the **Medallion Architecture** on **Databricks**.
 
-1. Ingests raw Parquet files into Databricks Volume storage.
-2. Profiles the data to identify nulls, invalid values, and outliers.
-3. Builds a **Bronze** Delta table that preserves raw records.
-4. Cleans and validates data in the **Silver** layer.
-5. Enriches trip data using the NYC Taxi Zone Lookup dataset.
-6. Creates multiple **Gold** tables for business reporting.
-7. Demonstrates Delta Lake capabilities such as **Time Travel**, **RESTORE**, **MERGE**, **OPTIMIZE**, **ZORDER**, and **VACUUM**.
-8. Presents the results in an interactive dashboard.
+Raw NYC Yellow Taxi trip records are transformed into analytics-ready datasets through **Bronze**, **Silver**, and **Gold** Delta tables before being visualised in an interactive **Lakeview Dashboard**.
 
-## Medallion Architecture
+The project demonstrates production-style ETL design, Delta Lake operations, Spark SQL analytics, and dashboard development on a dataset containing **9.4+ million taxi trips**.
 
-### Bronze
-Raw source data stored as Delta with minimal transformation so the original input remains recoverable.
+---
 
-### Silver
-Cleaned, validated, deduplicated data with obvious anomalies removed and selected nulls handled through explicit business rules.
+# 🏗️ Architecture
 
-### Gold
-Business-facing aggregates designed for reporting and dashboarding, such as revenue trends, hourly demand, payment distribution, and top pickup zones.
+<p align="center">
+<img src="images/architecture.png" width="90%">
+</p>
 
-## Key Features
+---
 
-- Spark-based ingestion from Parquet files
-- Data profiling and quality checks
-- Bronze/Silver/Gold Delta tables
-- Zone enrichment via taxi zone lookup join
-- SQL analytics with aggregations and window functions
-- Delta Lake time travel and version history
-- `UPDATE`, `RESTORE`, `MERGE`, `OPTIMIZE`, `ZORDER`, `VACUUM`
-- Business dashboard built in Databricks
+# 📊 Dashboard
 
-## Dashboard
+<p align="center">
+<img src="images/dashboard.png" width="100%">
+</p>
 
-The dashboard highlights:
+---
 
-- Total trips
-- Total revenue
-- Average fare
-- Average trip distance
-- Daily revenue trend
-- Hourly trip distribution
-- Payment method distribution
-- Top pickup zones
-- Vendor performance
+# 📈 Business Insights
 
-## Notebooks
+The dashboard provides:
 
-The Databricks workspace contains the full implementation in ordered notebooks:
+- 🚖 Total Trips
+- 💰 Total Revenue
+- 💳 Average Fare
+- 📍 Average Trip Distance
+- 📅 Daily Revenue Trend
+- 🕒 Hourly Trip Distribution
+- 💳 Payment Distribution
+- 📍 Top Pickup Zones
+- 🚖 Vendor Performance
 
-- `01_Data_Exploration`
-- `02_Bronze_Layer`
-- `03_Silver_Layer`
-- `04_Gold_Layer`
-- `05_Data_Enrichment`
-- `06_SQL_Analytics`
-- `07_Delta_Lake`
-- `07B_Delta_Merge_Demo`
-- `08A_Caching`
-- `08B_Performance_Engineering`
-- `09_Dashboard`
+---
 
-## Repository Structure
+# 🛠️ Tech Stack
+
+| Category | Technology |
+|-----------|------------|
+| Platform | Databricks Free Edition |
+| Language | Python |
+| Processing | PySpark |
+| Query Engine | Spark SQL |
+| Storage | Delta Lake |
+| Catalog | Unity Catalog |
+| Dashboard | Databricks Lakeview Dashboard |
+
+---
+
+# 🏛️ Medallion Architecture
+
+## 🥉 Bronze Layer
+
+- Raw Parquet ingestion
+- Original schema preserved
+- Delta format
+- Immutable raw storage
+
+Notebook
+
+```text
+02_Bronze_Layer
+```
+
+---
+
+## 🥈 Silver Layer
+
+Data Quality Improvements
+
+- Duplicate removal
+- Null handling
+- Invalid fare removal
+- Invalid timestamps removed
+- Distance validation
+
+Notebook
+
+```text
+03_Silver_Layer
+```
+
+---
+
+## 🥇 Gold Layer
+
+Business-ready aggregates
+
+Created tables
+
+- gold_daily_summary
+- gold_hourly_summary
+- gold_payment_summary
+- gold_vendor_summary
+- gold_zone_summary
+
+Notebook
+
+```text
+04_Gold_Layer
+```
+
+---
+
+# 🔄 ETL Pipeline
+
+```
+NYC TLC Dataset
+
+↓
+
+Bronze
+
+↓
+
+Silver
+
+↓
+
+Zone Enrichment
+
+↓
+
+Gold
+
+↓
+
+SQL Analytics
+
+↓
+
+Lakeview Dashboard
+```
+
+---
+
+# 📁 Repository Structure
 
 ```text
 NYC-Taxi-Medallion-Architecture/
+│
 ├── README.md
 ├── LICENSE
-├── .gitignore
+├── dataset_link.md
+│
 ├── notebooks/
+│
 ├── docs/
-├── images/
-└── dataset_link.md
+│
+└── images/
 ```
 
-## Dataset
+---
 
-This project uses the official NYC TLC Yellow Taxi trip records and taxi zone lookup data.
+# 📚 Project Documentation
 
-- NYC TLC trip record data: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
-- Taxi zone lookup: https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv
+| Document | Description |
+|----------|-------------|
+| Architecture.md | Overall system architecture |
+| BusinessRules.md | Cleaning & validation rules |
+| DataDictionary.md | Dataset & schema documentation |
+| DashboardGuide.md | Dashboard explanation |
+| DeltaLake.md | Delta Lake operations |
+| InterviewQuestions.md | Common interview questions |
 
-## Business Value
+---
 
-This pipeline helps answer questions such as:
+# ⚡ Delta Lake Features
 
-- Which days generate the most revenue?
-- When is taxi demand highest?
-- Which pickup zones are busiest?
-- Which payment methods are most common?
-- Which vendors carry the most trips?
+Implemented and demonstrated:
 
-## Delta Lake Features Used
+- ✅ UPDATE
+- ✅ DELETE
+- ✅ MERGE
+- ✅ Time Travel
+- ✅ RESTORE
+- ✅ DESCRIBE HISTORY
+- ✅ OPTIMIZE
+- ✅ ZORDER
+- ✅ VACUUM
 
-- ACID transactions
-- Transaction log (`_delta_log`)
-- Time travel
-- Table version history
-- `MERGE INTO`
-- `RESTORE TABLE`
-- `OPTIMIZE`
-- `ZORDER BY`
-- `VACUUM`
+---
 
-## Screenshots
+# 📓 Notebooks
 
-- Dashboard overview: `images/dashboard.png`
-- Revenue trend: `images/revenue_trend.png`
-- Payment distribution: `images/payment_distribution.png`
-- Top pickup zones: `images/top_pickup_zones.png`
+The project is organised into sequential notebooks:
 
-## Future Improvements
+1. Data Exploration
+2. Bronze Layer
+3. Silver Layer
+4. Gold Layer
+5. Data Enrichment
+6. SQL Analytics
+7. Delta Lake
+8. Delta MERGE Demo
+9. Caching
+10. Performance Engineering
+11. Dashboard
 
-- Add incremental ingestion for future monthly taxi files
-- Automate pipeline refresh with Databricks Jobs
-- Add more gold tables for borough-level and day-of-week analytics
-- Extend the dashboard with date filters and comparison views
+---
 
-## Why this project matters
+# 🚀 Running the Project
 
-This project was built to mirror how real data engineering teams structure lakehouse pipelines. It is not just a notebook exercise; it shows ingestion, validation, transformation, enrichment, analytics, optimisation, and presentation in one end-to-end workflow.
+1. Create a Databricks Free Edition workspace.
+2. Download the NYC TLC Taxi dataset.
+3. Upload the files to a Unity Catalog Volume.
+4. Import the notebooks.
+5. Execute them in numerical order.
+6. Open the Lakeview Dashboard.
+
+---
+
+# 📂 Dataset
+
+This project uses the official NYC TLC Yellow Taxi Trip Record dataset.
+
+Download links are available in
+
+```text
+dataset_link.md
+```
+
+---
+
+# 💼 Business Value
+
+This solution demonstrates how modern Data Engineering pipelines transform raw operational data into business-ready insights.
+
+Key outcomes include:
+
+- Revenue analysis
+- Demand forecasting support
+- Zone popularity analysis
+- Vendor performance comparison
+- Payment behaviour analysis
+
+---
+
+# 🎯 Interview Highlights
+
+This project demonstrates practical experience with:
+
+- Medallion Architecture
+- Apache Spark
+- Delta Lake
+- PySpark
+- Spark SQL
+- Data Cleaning
+- ETL Pipelines
+- Business Intelligence
+- Dashboard Development
+
+---
+
+# 🔮 Future Improvements
+
+- Incremental ingestion
+- Databricks Jobs scheduling
+- Streaming pipeline
+- CI/CD deployment
+- Automated data quality checks
+- ML-based demand forecasting
+
+---
+
+# 👨‍💻 Author
+
+**Jay Gautam**
+
+- GitHub: https://github.com/Jay121305
+- LinkedIn: https://www.linkedin.com/in/jay-gautam/
+
+---
+
+## ⭐ If you found this repository useful, consider giving it a star!
